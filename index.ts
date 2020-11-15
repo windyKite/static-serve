@@ -12,6 +12,7 @@ import * as url from 'url';
 
 const server = http.createServer();
 const publicDir = p.resolve(__dirname, 'public');
+let cacheAge = 3600 * 24 
 
 server.on('request', (request, response) => {
   const { method, url: path, headers } = request
@@ -40,6 +41,7 @@ server.on('request', (request, response) => {
         response.end('服务器错误,请联系管理员!')
       }
     } else {
+      response.setHeader('Cache-Control', `public, max-age=${cacheAge}`)
       response.end(data)
     }
   })
