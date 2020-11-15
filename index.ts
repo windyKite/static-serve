@@ -16,6 +16,12 @@ const publicDir = p.resolve(__dirname, 'public');
 server.on('request', (request, response) => {
   const { method, url: path, headers } = request
 
+  if(method !== 'GET') {
+    response.statusCode = 405
+    response.end(); 
+    return;
+  }
+  
   const { pathname, search } = url.parse(path)
 
   let fileName = pathname.substr(1)
