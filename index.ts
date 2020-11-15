@@ -18,6 +18,16 @@ server.on('request', (request, response) => {
 
   const { pathname, search } = url.parse(path)
 
+  const fileName = pathname.substr(1)
+  fs.readFile(p.resolve(publicDir, fileName), (error, data) => {
+    if(error) {
+      response.statusCode = 404
+      response.end()
+    } else {
+      response.end(data)
+    }
+  })
+
   switch(pathname){
     case '/index.html':
       response.setHeader('Content-Type', 'text/html; charset=utf-8;')
